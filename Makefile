@@ -7,7 +7,7 @@ SRC =	main.c \
 		./src/usart.c \
 		./src/ring_buffer.c \
 		./src/rotary_encoder.c \
-		./scr/timers.c
+		./src/timers.c
 
 all:
 	avr-gcc -Wall -Os -DF_CPU=$(F_CPU) -mmcu=$(DEVICE) $(SRC)

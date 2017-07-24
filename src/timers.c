@@ -21,25 +21,25 @@
 //Range: 64 us ... 4194.240 ms
 
 static uint16_t get_prescaler_ns(double ns) {
-	uint16_t result_presc; //result prescaler's value
+	uint16_t result_presc = 0; //result prescaler's value
 
 	if(ns < GET_MAX_NS(1)) {
-		result = 1;
+		result_presc = 1;
 	} else if(ns < GET_MAX_NS(8)) {
-		result = 8;
+		result_presc = 8;
 	} else if(ns < GET_MAX_NS(64)) {
-		result = 64;
+		result_presc = 64;
 	} else if(ns < GET_MAX_NS(256)) {
-		result = 256;
+		result_presc = 256;
 	} else if(ns < GET_MAX_NS(1024)) {
-		result = 1024;
+		result_presc = 1024;
 	}
 
 	return result_presc;
 }
 
 static uint8_t get_csbits(uint16_t prescaler) {
-	uint8_t result;
+	uint8_t result = 0;
 	switch(prescaler) {
 		case 1: {
 			result = 1;
@@ -61,6 +61,7 @@ static uint8_t get_csbits(uint16_t prescaler) {
 			result = 5;
 			break;
 		}
+		default: {}
 	}
 
 	return result;

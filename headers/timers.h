@@ -27,8 +27,6 @@ void timer_init();
 
 //up to 4_194_240_000 ns
 void timer_start_ns(double ns);
-
-
 void timer_start_us(double us);
 void timer_start_ms(double ms);
 
