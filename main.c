@@ -22,7 +22,7 @@ int main(void) {
 	//timer_start_ms(1000);
 
 	while(1) {
-		USART0_print("Double number!\n");
+		USART0_print("Double number: %10.5f\n",1000.);
 		_delay_ms(1000);
 	}
 
