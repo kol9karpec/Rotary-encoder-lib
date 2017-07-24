@@ -78,7 +78,12 @@ void timer_init() {
 void timer_start_ns(double ns) {
 	//Setting prescaler
 	uint16_t prescaler = get_prescaler_ns(ns);
-	uint16_t value = (uint16_t)((double)ns / GET_PRESICION_NS(prescaler));
+	uint16_t value = (uint16_t)(ns / GET_PRESICION_NS(prescaler));
+
+	USART0_print("ns: %f\n",ns);
+	USART0_print("prescaler: %d\n",prescaler);
+	USART0_print("value: %d\n",value);
+	USART0_print("csbits: %d\n",get_csbits(prescaler));
 
 	OCR1A = value;
 
@@ -89,11 +94,13 @@ void timer_start_ns(double ns) {
 }
 
 void timer_start_us(double us) {
-	timer_start_ns(us * 1000.);
+	USART0_print("us: %f\n",us);
+	timer_start_ns(us*1000);
 }
 
 void timer_start_ms(double ms) {
-	timer_start_us(ms * 1000.);
+	USART0_print("ms: %f\n",ms);
+	timer_start_us(ms*1000);
 }
 
 void timer_stop() {

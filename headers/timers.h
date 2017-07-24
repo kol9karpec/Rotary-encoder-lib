@@ -5,23 +5,25 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
+#include "usart.h"
+
 #define GET_PRESICION_NS(prescaler) \
 	(1000000000./((double)F_CPU/prescaler))
 
 #define GET_PRESICION_US(prescaler) \
-	(GET_PRESICION_NS(prescaler) / 1000.)
+	(GET_PRESICION_NS(prescaler) / 1000.0)
 
 #define GET_PRESICION_MS(prescaler) \
-	(GET_PRESICION_US(prescaler) / 1000.)
+	(GET_PRESICION_US(prescaler) / 1000.0)
 
 #define GET_MAX_NS(prescaler) \
-	(GET_PRESICION_NS(prescaler)*65535.)
+	(GET_PRESICION_NS(prescaler)*65535.0)
 
 #define GET_MAX_US(prescaler) \
-	(GET_PRESICION_US(prescaler)*65535.)
+	(GET_PRESICION_US(prescaler)*65535.0)
 
 #define GET_MAX_MS(prescaler) \
-	(GET_PRESICION_MS(prescaler)*65535.)
+	(GET_PRESICION_MS(prescaler)*65535.0)
 
 void timer_init();
 

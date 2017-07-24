@@ -17,11 +17,13 @@ int main(void) {
 
 	USART0_init(BAUD_RATE(115200));
 	led_init();
-	timer_init();
-	timer_start_ms(1000.);
+	//timer_init();
+
+	//timer_start_ms(1000);
 
 	while(1) {
-		
+		USART0_print("Double number!\n");
+		_delay_ms(1000);
 	}
 
 	//Unreachable
@@ -36,4 +38,3 @@ void led_init() {
 	LED_DDR |= _BV(LED_BIT);
 	LED_PORT |= _BV(LED_BIT);
 }
-
