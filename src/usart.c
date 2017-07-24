@@ -3,7 +3,7 @@
 ring_buffer_t transmit_buffer;
 ring_buffer_t receive_buffer;
 
-uint8_t isContinue = false;
+uint8_t isContinue = 0;
 
 void USART0_init(uint16_t baud_rate) {
 	SREG &= ~_BV(7);
@@ -22,7 +22,7 @@ void USART0_init(uint16_t baud_rate) {
 
 	clean(&transmit_buffer);
 	clean(&receive_buffer);
-	isContinue = true;
+	isContinue = 1;
 
 	SREG |= _BV(7);
 }
@@ -53,19 +53,19 @@ uint8_t USART0_print(const char * format, ...) {
 
 	va_end(arg_list);
 
-	UCSR0B |= _BV(UDRIE0); 
 	if(_strlen != 0) {
 		isContinue = pop(&UDR0,&transmit_buffer);
+		UCSR0B |= _BV(UDRIE0);
 	}
 
 	return result;
 }
 
 ISR(USART0_UDRE_vect) {
-	if(!isContinue) {
-		UCSR0B &= ~_BV(UDRIE0);
-	} else {
+	UCSR0B &= ~_BV(UDRIE0);
+	if(isContinue) {
 		isContinue = pop(&UDR0,&transmit_buffer);
+		UCSR0B |= _BV(UDRIE0);
 	}
 }
 

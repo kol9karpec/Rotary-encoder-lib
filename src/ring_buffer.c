@@ -6,7 +6,8 @@ uint8_t push(uint8_t data, ring_buffer_t * ring_buffer) {
   if(ring_buffer->start == ring_buffer->end) { //check for buffer is full
       result = 0;
   } else {
-    if(is_empty(ring_buffer)) {
+    if(is_empty(ring_buffer) && \
+      (ring_buffer->data[ring_buffer->start] == '\0')) {
         ring_buffer->data[ring_buffer->start] = data;
     } else {
         ring_buffer->data[ring_buffer->end] = data;
@@ -27,6 +28,7 @@ uint8_t pop(volatile uint8_t * dest, ring_buffer_t * ring_buffer) {
   if(is_empty(ring_buffer)) {
     result = 0;
     *dest = ring_buffer->data[ring_buffer->start];
+    ring_buffer->data[ring_buffer->start] = '\0';
   } else {
     *dest = ring_buffer->data[ring_buffer->start++];
   }
@@ -48,4 +50,5 @@ uint8_t is_empty(ring_buffer_t * ring_buffer) {
 void clean(ring_buffer_t * ring_buffer) {
   ring_buffer->start = 0;
   ring_buffer->end = 1;
+  ring_buffer->data[ring_buffer->start] == (uint8_t)('\0');
 }
