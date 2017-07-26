@@ -17,6 +17,8 @@
 #define LED_DDR DDRB
 #define LED_PORT PORTB 
 
+#define GET_BIT(r,n) ((r >> n)&1)
+
 //Declaration of buffers
 extern ring_buffer_t transmit_buffer;
 extern ring_buffer_t receive_buffer;

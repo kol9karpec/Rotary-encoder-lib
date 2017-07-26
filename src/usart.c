@@ -26,9 +26,23 @@ void USART0_init(uint16_t baud_rate) {
 
 	SREG |= _BV(7);
 }
-
+/*
+static int uart_putchar(char c, FILE *stream);
+static FILE mystdout = FDEV_SETUP_STREAM(uart_putchar, NULL, _FDEV_SETUP_WRITE);
+ 
+static int uart_putchar(char c, FILE *stream)
+{
+   if (c == '\n')
+      uart_putchar('\r', stream);
+ 	while(!GET_BIT(UCSR0A,UDRE0)) {}
+   UDR0 = c;
+   return 0;
+}
+*/
 uint8_t USART0_print(const char * format, ...) {
 	uint8_t result = 1;
+
+	//stdout = &mystdout;
 
 	va_list arg_list; 
 
@@ -37,8 +51,9 @@ uint8_t USART0_print(const char * format, ...) {
 	uint8_t i = 0;
 
 	va_start(arg_list,format); //saving list of arguments
-	vsnprintf(result_str,DEF_SIZE-1,format,arg_list); //generating final string
-	
+	int n = vsnprintf(result_str,DEF_SIZE-1,format,arg_list); //generating final string
+	//printf("\nn: %d\n",n);
+	va_end(arg_list);
 	_strlen = strlen(result_str);
 
 	for(i=0 ; i<_strlen ; i++) {
@@ -49,9 +64,7 @@ uint8_t USART0_print(const char * format, ...) {
 		}
 	}
 
-	free(result_str);
-
-	va_end(arg_list);
+	free(result_str);	
 
 	if(_strlen != 0) {
 		isContinue = pop(&UDR0,&transmit_buffer);
