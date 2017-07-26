@@ -26,8 +26,8 @@ uint8_t pop(volatile uint8_t * dest, ring_buffer_t * ring_buffer) {
   uint8_t result = 1;
 
   if(is_empty(ring_buffer)) {
-    result = 0;
     *dest = ring_buffer->data[ring_buffer->start];
+    result = 0;
     clean(ring_buffer);
   } else {
     *dest = ring_buffer->data[ring_buffer->start++];

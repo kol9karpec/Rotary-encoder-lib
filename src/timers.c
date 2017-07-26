@@ -78,28 +78,30 @@ void timer_init() {
 void timer_start_ns(double ns) {
 	//Setting prescaler
 	uint16_t prescaler = get_prescaler_ns(ns);
-	uint16_t value = (uint16_t)(ns / GET_PRESICION_NS(prescaler));
-
-	USART0_print("ns: %f\n",ns);
+	uint16_t value = (ns / GET_PRESICION_NS(prescaler));
+/*
+	USART0_print("ns: %.2f\n",ns);
 	USART0_print("prescaler: %d\n",prescaler);
-	USART0_print("value: %d\n",value);
+	USART0_print("value: %u\n",value);
 	USART0_print("csbits: %d\n",get_csbits(prescaler));
+	USART0_print("presicion: %.2f\n",GET_PRESICION_NS(prescaler));
+*/
 
 	OCR1A = value;
 
 	//Starting timer
+	TIMSK1 |= _BV(OCIE1A);
 	TCCR1B = (TCCR1B & 0xF8) | get_csbits(prescaler);
-
 	//Implement ISR(TIMER1_COMPA_vect)
 }
 
 void timer_start_us(double us) {
-	USART0_print("us: %f\n",us);
+	//USART0_print("us: %.2f\n",us);
 	timer_start_ns(us*1000);
 }
 
 void timer_start_ms(double ms) {
-	USART0_print("ms: %f\n",ms);
+	//USART0_print("ms: %.2f\n",ms);
 	timer_start_us(ms*1000);
 }
 

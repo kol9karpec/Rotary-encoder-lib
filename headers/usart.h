@@ -22,7 +22,7 @@
 //Declaration of buffers
 extern ring_buffer_t transmit_buffer;
 extern ring_buffer_t receive_buffer;
-extern uint8_t isContinue;
+extern volatile uint8_t isContinue;
 
 #define DSPEED_MODE 0
 #define BAUD_RATE(x) (F_CPU/((16/(int)pow(2.,DSPEED_MODE))*(x-1)))

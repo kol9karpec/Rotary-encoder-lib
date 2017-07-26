@@ -3,7 +3,7 @@
 ring_buffer_t transmit_buffer;
 ring_buffer_t receive_buffer;
 
-uint8_t isContinue = 0;
+volatile uint8_t isContinue = 0;
 
 void USART0_init(uint16_t baud_rate) {
 	SREG &= ~_BV(7);
@@ -22,7 +22,7 @@ void USART0_init(uint16_t baud_rate) {
 
 	clean(&transmit_buffer);
 	clean(&receive_buffer);
-	isContinue = 1;
+	isContinue = 0;
 
 	SREG |= _BV(7);
 }
@@ -40,6 +40,8 @@ static int uart_putchar(char c, FILE *stream)
 }
 */
 uint8_t USART0_print(const char * format, ...) {
+	while(isContinue) {}
+
 	uint8_t result = 1;
 
 	//stdout = &mystdout;
@@ -51,8 +53,8 @@ uint8_t USART0_print(const char * format, ...) {
 	uint8_t i = 0;
 
 	va_start(arg_list,format); //saving list of arguments
-	int n = vsnprintf(result_str,DEF_SIZE-1,format,arg_list); //generating final string
-	//printf("\nn: %d\n",n);
+	vsnprintf(result_str,DEF_SIZE-1,format,arg_list); //generating final string
+	//printf("printf: %s",result_str);
 	va_end(arg_list);
 	_strlen = strlen(result_str);
 
@@ -77,8 +79,8 @@ uint8_t USART0_print(const char * format, ...) {
 ISR(USART0_UDRE_vect) {
 	UCSR0B &= ~_BV(UDRIE0);
 	if(isContinue) {
-		isContinue = pop(&UDR0,&transmit_buffer);
 		UCSR0B |= _BV(UDRIE0);
+		isContinue = pop(&UDR0,&transmit_buffer);		
 	}
 }
 
