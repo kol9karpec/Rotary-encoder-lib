@@ -53,16 +53,15 @@ void _default_rotate_left_func(void);
 void _default_button_click_func(void);
 void _process_data(void);
 
-encoder_driver_t encoder_driver;
-
+extern encoder_driver_t encoder_driver;
+/*
 encoder_driver.rotate_right = \
 		_default_rotate_right_func;
 encoder_driver.rotate_left = \
 		_default_rotate_left_func;
 encoder_driver.button_click = \
 		_default_button_click_func;
-
-timer_tick = _process_data;
+*/
 
 encoder_status_t encoder_status;
 

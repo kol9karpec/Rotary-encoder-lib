@@ -3,18 +3,14 @@
 #include <avr/interrupt.h>
 
 #include "./headers/usart.h"
-#include "./headers/timers.h"
+//#include "./headers/timers.h"
 #include "./headers/rotary_encoder.h"
 
 #define LED_BIT 7
 #define LED_DDR DDRB
 #define LED_PORT PORTB
 
-#define GET_BIT(r,n) ((r >> n)&1)
-
 void led_init();
-
-volatile int counter = 0;
 
 int main(void) {
 
@@ -22,8 +18,8 @@ int main(void) {
 	led_init();
 
 	encoder_init();
-	rotator_on();
-	button_on();
+	//rotator_on();
+	//button_on();
 
 	while(1) {
 

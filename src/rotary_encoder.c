@@ -2,6 +2,13 @@
 
 volatile uint8_t processing = 0;
 
+encoder_driver_t encoder_driver = \
+	{_default_rotate_right_func,
+		_default_rotate_left_func,
+	_default_button_click_func};
+
+timer_tick_func_t timer_tick = _process_data;
+
 void encoder_init(void) {
 	ENCODER_DT_DDR &= ~_BV(ENCODER_DT);
 	ENCODER_CLK_DDR &= ~_BV(ENCODER_CLK);
@@ -15,8 +22,6 @@ void encoder_init(void) {
 	PCMSK2 |= _BV(PCINT16) | _BV(PCINT18);
 
 	timer_init();
-
-	//Implement correspoding ISR()
 }
 
 void rotator_on(void) {
@@ -68,8 +73,9 @@ void _process_data(void) {
 		} else {
 			(*encoder_driver.rotate_left)();
 		}
-	} else if((encoder_status.SW_PIN == 0) && \
-		(encoder_cur_status.SW_PIN == 1)) {
+	} 
+	if((encoder_status.SW_PIN == 1) && \
+		(encoder_cur_status.SW_PIN == 0)) {
 		(*encoder_driver.button_click)();
 	}
 

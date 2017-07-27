@@ -25,6 +25,8 @@
 #define GET_MAX_MS(prescaler) \
 	(GET_PRESICION_MS(prescaler)*65535.0)
 
+typedef void (*timer_tick_func_t)(void);
+
 void timer_init(void);
 
 //up to 4_194_240_000 ns
@@ -36,7 +38,6 @@ void timer_stop(void);
 
 void _def_timer_func(void);
 
-void (*timer_tick)(void);
-timer_tick = _def_timer_func;
+extern timer_tick_func_t timer_tick;
 
 #endif //TIMERS_H
