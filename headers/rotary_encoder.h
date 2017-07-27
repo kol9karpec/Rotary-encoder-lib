@@ -8,25 +8,25 @@
 #include "usart.h"
 #include "timers.h"
 
-#define ANALOG_PIN_8 0 //PCINT16
-#define ANALOG_PIN_9 1 //PCINT17
-#define ANALOG_PIN_10 2 //PCINT18
+#define D_PIN_12 6 //PCINT6
+#define D_PIN_11 5 //PCINT5
+#define D_PIN_10 4 //PCINT4
 
-#define ENCODER_DT ANALOG_PIN_8
-#define ENCODER_CLK ANALOG_PIN_9
-#define ENCODER_SW ANALOG_PIN_10
+#define ENCODER_DT D_PIN_12
+#define ENCODER_CLK D_PIN_11
+#define ENCODER_SW D_PIN_10
 
-#define ENCODER_DT_DDR DDRK
-#define ENCODER_CLK_DDR DDRK
-#define ENCODER_SW_DDR DDRK
+#define ENCODER_DT_DDR DDRB
+#define ENCODER_CLK_DDR DDRB
+#define ENCODER_SW_DDR DDRB
 
-#define ENCODER_DT_PORT PORTK
-#define ENCODER_CLK_PORT PORTK
-#define ENCODER_SW_PORT PORTK
+#define ENCODER_DT_PORT PORTB
+#define ENCODER_CLK_PORT PORTB
+#define ENCODER_SW_PORT PORTB
 
-#define ENCODER_DT_PIN PINK
-#define ENCODER_CLK_PIN PINK
-#define ENCODER_SW_PIN PINK
+#define ENCODER_DT_PIN PINB
+#define ENCODER_CLK_PIN PINB
+#define ENCODER_SW_PIN PINB
 
 typedef struct {
 	void (*rotate_right)(void);

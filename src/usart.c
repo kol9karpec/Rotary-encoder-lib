@@ -40,7 +40,7 @@ static int uart_putchar(char c, FILE *stream)
 }
 */
 uint8_t USART0_print(const char * format, ...) {
-	while(isContinue) {}
+	//while(isContinue) {}
 
 	uint8_t result = 1;
 
@@ -61,17 +61,16 @@ uint8_t USART0_print(const char * format, ...) {
 	for(i=0 ; i<_strlen ; i++) {
 		if(!push((uint8_t)(result_str[i]),&transmit_buffer)) {
 			result = 0;
-			clean(&transmit_buffer);
+			//clean(&transmit_buffer);
 			break;
 		}
 	}
 
 	free(result_str);	
 
-	if(_strlen != 0) {
-		isContinue = pop(&UDR0,&transmit_buffer);
-		UCSR0B |= _BV(UDRIE0);
-	}
+	
+	isContinue = pop(&UDR0,&transmit_buffer);
+	UCSR0B |= _BV(UDRIE0);
 
 	return result;
 }
