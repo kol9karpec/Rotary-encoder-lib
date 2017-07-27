@@ -67,7 +67,7 @@ static uint8_t get_csbits(uint16_t prescaler) {
 	return result;
 }
 
-void timer_init() {
+void timer_init(void) {
 	//Setting Clear Timer on Compare Mode (WGMn3:0 = 0100)
 	TCCR1A = 0;
 	TCCR1B = 0;
@@ -92,7 +92,6 @@ void timer_start_ns(double ns) {
 	//Starting timer
 	TIMSK1 |= _BV(OCIE1A);
 	TCCR1B = (TCCR1B & 0xF8) | get_csbits(prescaler);
-	//Implement ISR(TIMER1_COMPA_vect)
 }
 
 void timer_start_us(double us) {
@@ -105,6 +104,14 @@ void timer_start_ms(double ms) {
 	timer_start_us(ms*1000);
 }
 
-void timer_stop() {
+void timer_stop(void) {
 	TCCR1B &= (~_BV(CS10)) & (~_BV(CS11)) & (~_BV(CS12));
+}
+
+void _def_timer_func(void) {
+	USART0_print("Timer ticked!\n");
+}
+
+ISR(TIMER1_COMPA_vect) {
+	(*timer_tick)();
 }
